@@ -37,7 +37,17 @@ class ProductCubit extends Cubit<ProductState> {
         'id': product.id,
         'name': product.name,
         'unit': product.unit,
-      });
+      }).then((value) => {
+            Fluttertoast.showToast(
+                msg: "Thêm sản phẩm thành công !",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.green,
+                textColor: Colors.white,
+                fontSize: 16.0),
+            getProducts()
+          });
     }
   }
 
@@ -47,7 +57,11 @@ class ProductCubit extends Cubit<ProductState> {
     final snapshot = await db.get();
     final data = jsonDecode(jsonEncode(snapshot.value));
 
-    if (data == null) {
+    if (data == null || data.isEmpty) {
+      printYellow('rỗng');
+
+      emit(
+          state.copyWith(products: newProducts, status: ProductStatus.success));
       return;
     }
     Map<String, dynamic> newData = data as Map<String, dynamic>;

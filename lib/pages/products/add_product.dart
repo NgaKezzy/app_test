@@ -7,13 +7,27 @@ import 'package:test_app/widgets/custom_button.dart';
 import 'package:test_app/widgets/custom_text_field.dart';
 import 'package:test_app/widgets/header_app.dart';
 
-class AddProduct extends StatelessWidget {
+class AddProduct extends StatefulWidget {
   AddProduct({super.key});
+
+  @override
+  State<AddProduct> createState() => _AddProductState();
+}
+
+class _AddProductState extends State<AddProduct> {
   final TextEditingController idController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController unitController = TextEditingController();
-
   final formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    idController.dispose();
+    nameController.dispose();
+    unitController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,10 +78,18 @@ class AddProduct extends StatelessWidget {
                 CustomButton(
                   callback: () {
                     if (formKey.currentState!.validate()) {
-                      productCubit.addProduct(Product(
+                      productCubit.addProduct(
+                        Product(
                           id: int.parse(idController.text.trim()),
                           name: nameController.text.trim(),
-                          unit: unitController.text.trim()));
+                          unit: unitController.text.trim(),
+                        ),
+                      );
+                      idController.clear();
+                      nameController.clear();
+                      unitController.clear();
+
+                      FocusScope.of(context).unfocus();
                     }
                   },
                 ),

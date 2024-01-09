@@ -23,11 +23,18 @@ class ItemHomeApp extends StatelessWidget {
       child: Container(
         height: 120,
         width: width * 0.47 - 20,
-        decoration:
-            BoxDecoration(borderRadius: BorderRadius.circular(8), color: color),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: color.withOpacity(0.3)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Icon(icon), Text(title)],
+          children: [
+            Icon(icon),
+            Text(
+              title,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+            )
+          ],
         ),
       ),
     );

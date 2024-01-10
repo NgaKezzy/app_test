@@ -63,7 +63,16 @@ class WarehouseCubit extends Cubit<WarehouseState> {
         status: WarehousesStatus.loading, warehouses: newWarehouses));
   }
 
+  Future<void> removeWarehouse(Warehouses warehouses) async {
+    await db.child(warehouses.id).remove();
+    getWarehouse();
+  }
 
-
-  
+  Future<void> updateWarehouse(Warehouses warehouses) async {
+    await db.child(warehouses.id).update({
+      'name': warehouses.name,
+      'address': warehouses.address,
+    });
+    getWarehouse();
+  }
 }

@@ -1,24 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:test_app/config/print_color.dart';
 import 'package:test_app/models/product.dart';
 import 'package:test_app/cubit/product_cubit.dart';
 import 'package:test_app/widgets/custom_button.dart';
 import 'package:test_app/widgets/custom_text_field.dart';
 import 'package:test_app/widgets/header_app.dart';
 
-class AddProduct extends StatefulWidget {
-  AddProduct({super.key});
+class UpdateProduct extends StatefulWidget {
+  const UpdateProduct({super.key, required this.product});
+
+  final Product product;
 
   @override
-  State<AddProduct> createState() => _AddProductState();
+  State<UpdateProduct> createState() => _UpdateProductState();
 }
 
-class _AddProductState extends State<AddProduct> {
+class _UpdateProductState extends State<UpdateProduct> {
   final TextEditingController idController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController unitController = TextEditingController();
-  final formKey = GlobalKey<FormState>();
+  final formKeyUpdateProduct = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    idController.text = widget.product.id.toString();
+    nameController.text = widget.product.name;
+    unitController.text = widget.product.unit;
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -40,23 +49,22 @@ class _AddProductState extends State<AddProduct> {
           callback: () {
             Navigator.pop(context);
           },
-          title: 'Thêm sản phẩm',
+          title: 'Chỉnh sửa sản phẩm',
         ),
       ),
       body: Padding(
         padding: EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           child: Form(
-            key: formKey,
+            key: formKeyUpdateProduct,
             child: Column(
               children: [
                 const SizedBox(
                   height: 20,
                 ),
-                CustomTextField(
-                  type: TextInputType.number,
-                  controller: idController,
-                  labelText: 'Id sản phẩm',
+                Text(
+                  'ID : ${widget.product.id}',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(
                   height: 20,
@@ -76,20 +84,13 @@ class _AddProductState extends State<AddProduct> {
                   height: 40,
                 ),
                 CustomButton(
-                  title: 'Thêm sản phẩm',
+                  title: 'Sửa sản phẩm',
                   callback: () {
-                    if (formKey.currentState!.validate()) {
-                      productCubit.addProduct(
-                        Product(
+                    if (formKeyUpdateProduct.currentState!.validate()) {
+                      productCubit.updateProduct(Product(
                           id: int.parse(idController.text.trim()),
                           name: nameController.text.trim(),
-                          unit: unitController.text.trim(),
-                        ),
-                      );
-                      idController.clear();
-                      nameController.clear();
-                      unitController.clear();
-
+                          unit: unitController.text.trim()));
                       FocusScope.of(context).unfocus();
                     }
                   },

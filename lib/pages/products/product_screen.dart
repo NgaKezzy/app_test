@@ -49,7 +49,7 @@ class ProductScreen extends StatelessWidget {
               },
               itemBuilder: (context, index) {
                 return ItemProduct(
-                  product: state.products?[index],
+                  product: state.products![index],
                 );
               },
             );

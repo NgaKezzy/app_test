@@ -38,6 +38,7 @@ class ProductCubit extends Cubit<ProductState> {
         'name': product.name,
         'unit': product.unit,
       }).then((value) => {
+            getProducts(),
             Fluttertoast.showToast(
                 msg: "Thêm sản phẩm thành công !",
                 toastLength: Toast.LENGTH_SHORT,
@@ -46,12 +47,13 @@ class ProductCubit extends Cubit<ProductState> {
                 backgroundColor: Colors.green,
                 textColor: Colors.white,
                 fontSize: 16.0),
-            getProducts()
           });
     }
   }
 
   Future<void> getProducts() async {
+    printYellow('lấy thông tin sản phẩm');
+
     emit(state.copyWith(status: ProductStatus.loading));
     List<Product> newProducts = [];
     final snapshot = await db.get();
@@ -76,5 +78,35 @@ class ProductCubit extends Cubit<ProductState> {
     );
 
     emit(state.copyWith(status: ProductStatus.loading, products: newProducts));
+  }
+
+  Future<void> removeProduct(int idProduct) async {
+    await db.child(idProduct.toString()).remove().then((value) => {
+          getProducts(),
+          Fluttertoast.showToast(
+              msg: "Xóa sản phẩm thành công !",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.green,
+              textColor: Colors.white,
+              fontSize: 16.0),
+        });
+  }
+
+  Future<void> updateProduct(Product product) async {
+    await db.child(product.id.toString()).update({
+      'name': product.name,
+      'unit': product.unit,
+    });
+    getProducts();
+    Fluttertoast.showToast(
+        msg: "Sửa thành công !",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 }

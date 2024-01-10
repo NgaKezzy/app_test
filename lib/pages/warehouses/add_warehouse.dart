@@ -1,38 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:test_app/config/print_color.dart';
-import 'package:test_app/models/product.dart';
-import 'package:test_app/cubit/product_cubit.dart';
+import 'package:test_app/cubit/warehouse_cubit.dart';
+import 'package:test_app/models/warehouse.dart';
 import 'package:test_app/widgets/custom_button.dart';
 import 'package:test_app/widgets/custom_text_field.dart';
 import 'package:test_app/widgets/header_app.dart';
 
-class AddProduct extends StatefulWidget {
-  AddProduct({super.key});
+class AddWarehouse extends StatefulWidget {
+  const AddWarehouse({super.key});
 
   @override
-  State<AddProduct> createState() => _AddProductState();
+  State<AddWarehouse> createState() => _AddWarehouseState();
 }
 
-class _AddProductState extends State<AddProduct> {
+class _AddWarehouseState extends State<AddWarehouse> {
   final TextEditingController idController = TextEditingController();
+
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController unitController = TextEditingController();
-  final formKey = GlobalKey<FormState>();
+
+  final TextEditingController addressController = TextEditingController();
+
+  final formKeyAddWarehouse = GlobalKey<FormState>();
 
   @override
   void dispose() {
     idController.dispose();
     nameController.dispose();
-    unitController.dispose();
-
+    addressController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final ProductCubit productCubit = context.read<ProductCubit>();
+    final WarehouseCubit warehouseCubit = context.read<WarehouseCubit>();
+
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -41,53 +43,52 @@ class _AddProductState extends State<AddProduct> {
           callback: () {
             Navigator.pop(context);
           },
-          title: 'Thêm sản phẩm',
+          title: 'Thêm kho',
         ),
       ),
       body: Padding(
         padding: EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           child: Form(
-            key: formKey,
+            key: formKeyAddWarehouse,
             child: Column(
               children: [
                 const SizedBox(
                   height: 20,
                 ),
                 CustomTextField(
-                  type: TextInputType.number,
                   controller: idController,
-                  labelText: 'Id sản phẩm',
+                  labelText: 'Mã kho',
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 CustomTextField(
                   controller: nameController,
-                  labelText: 'Tên sản phẩm',
+                  labelText: 'Tên kho',
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 CustomTextField(
-                  controller: unitController,
-                  labelText: 'Đơn vị tính',
+                  controller: addressController,
+                  labelText: 'Địa chỉ',
                 ),
                 const SizedBox(
                   height: 40,
                 ),
                 CustomButton(
-                  title: 'Thêm sản phẩm',
+                  title: 'Thêm kho',
                   callback: () async {
-                    if (formKey.currentState!.validate()) {
-                      await productCubit.addProduct(
-                        Product(
-                          id: int.parse(idController.text.trim()),
+                    if (formKeyAddWarehouse.currentState!.validate()) {
+                      await warehouseCubit.addWarehouse(
+                        Warehouses(
+                          id: idController.text.trim(),
+                          address: addressController.text.trim(),
                           name: nameController.text.trim(),
-                          unit: unitController.text.trim(),
                         ),
                       );
-                      if (productCubit.isAddProduct) {
+                      if (warehouseCubit.isAddWarehouse) {
                         Fluttertoast.showToast(
                             msg: "Thêm thành công !",
                             toastLength: Toast.LENGTH_SHORT,
@@ -98,17 +99,14 @@ class _AddProductState extends State<AddProduct> {
                             fontSize: 16.0);
                       } else {
                         Fluttertoast.showToast(
-                            msg: "Trùng id với sản phẩm đã có !",
+                            msg: "Kho đã tồn tại !",
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.BOTTOM,
                             timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.red,
+                            backgroundColor: Colors.green,
                             textColor: Colors.white,
                             fontSize: 16.0);
                       }
-                      idController.clear();
-                      nameController.clear();
-                      unitController.clear();
                       FocusScope.of(context).unfocus();
                     }
                   },

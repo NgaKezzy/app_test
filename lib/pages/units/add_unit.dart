@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:test_app/config/print_color.dart';
 import 'package:test_app/cubit/unit_cubit.dart';
 import 'package:test_app/models/unit.dart';
 import 'package:test_app/widgets/custom_button.dart';
@@ -15,11 +17,8 @@ class AddUnit extends StatefulWidget {
 
 class _AddUnitState extends State<AddUnit> {
   final TextEditingController symbolController = TextEditingController();
-
   final TextEditingController cityController = TextEditingController();
-
   final TextEditingController addressController = TextEditingController();
-
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -77,18 +76,35 @@ class _AddUnitState extends State<AddUnit> {
                 ),
                 CustomButton(
                   title: 'Thêm đơn vị',
-                  callback: () {
+                  callback: () async {
                     if (formKey.currentState!.validate()) {
-                      unitCubit
-                          .addUnit(
-                            Unit(
-                              symbol:
-                                  symbolController.text.toUpperCase().trim(),
-                              city: cityController.text.toUpperCase().trim(),
-                              address: addressController.text.trim(),
-                            ),
-                          )
-                          .then((value) => {FocusScope.of(context).unfocus()});
+                      await unitCubit.addUnit(
+                        Unit(
+                          symbol: symbolController.text.toUpperCase().trim(),
+                          city: cityController.text.toUpperCase().trim(),
+                          address: addressController.text.trim(),
+                        ),
+                      );
+                      if (unitCubit.isAddUnit) {
+                        Fluttertoast.showToast(
+                            msg: "Thêm thành công !",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.green,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: "Trùng  với đơn vị đã có !",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      }
+                      FocusScope.of(context).unfocus();
                     }
                   },
                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:test_app/cubit/unit_cubit.dart';
 import 'package:test_app/models/unit.dart';
 import 'package:test_app/pages/units/update_unit.dart';
@@ -27,7 +28,12 @@ class ItemUnit extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Ký hiệu: ${unit.symbol}'),
+                    SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.3 - 16,
+                        child: Text('Ký hiệu: ${unit.symbol}')),
+                    const SizedBox(
+                      width: 10,
+                    ),
                     Container(
                         alignment: Alignment.centerRight,
                         width: MediaQuery.of(context).size.width * 0.55,
@@ -59,6 +65,14 @@ class ItemUnit extends StatelessWidget {
                     CustomIconEditAndRemove(
                       callback: () {
                         unitCubit.removeUnit(unit.symbol);
+                        Fluttertoast.showToast(
+                            msg: "Xóa thành công !",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.green,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
                       },
                       icon: Icons.delete,
                       color: Colors.red,

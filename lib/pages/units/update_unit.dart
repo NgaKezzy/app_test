@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:test_app/cubit/unit_cubit.dart';
 import 'package:test_app/models/unit.dart';
 import 'package:test_app/widgets/custom_button.dart';
@@ -89,6 +90,14 @@ class _UpdateUnitState extends State<UpdateUnit> {
                           symbol: widget.unit.symbol,
                           city: cityController.text.toUpperCase().trim(),
                           address: addressController.text.trim()));
+                      Fluttertoast.showToast(
+                          msg: "Sửa thành công !",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.green,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
                       FocusScope.of(context).unfocus();
                     }
                   },

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_app/cubit/product_cubit.dart';
 import 'package:test_app/cubit/unit_cubit.dart';
+import 'package:test_app/cubit/warehouse_cubit.dart';
 import 'package:test_app/pages/products/product_screen.dart';
 import 'package:test_app/pages/units/unit_screen.dart';
+import 'package:test_app/pages/warehouses/warehouse_screen.dart';
 import 'package:test_app/widgets/item_home_app.dart';
 
 class HomeApp extends StatefulWidget {
@@ -16,14 +18,17 @@ class HomeApp extends StatefulWidget {
 class _HomeAppState extends State<HomeApp> {
   late ProductCubit productCubit;
   late UnitCubit unitCubit;
+  late WarehouseCubit warehouseCubit;
 
   @override
   void initState() {
     productCubit = context.read<ProductCubit>();
     unitCubit = context.read<UnitCubit>();
+    warehouseCubit = context.read<WarehouseCubit>();
 
     productCubit.getProducts();
     unitCubit.getUnit();
+    warehouseCubit.getWarehouse();
     super.initState();
   }
 
@@ -74,7 +79,13 @@ class _HomeAppState extends State<HomeApp> {
                                 builder: (context) => const ProductScreen()));
                       },
                       title: 'Sản phẩm'),
-                  const ItemHomeApp(
+                  ItemHomeApp(
+                    callback: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const WarehouseScreen()));
+                    },
                     title: 'Kho',
                   ),
                 ],

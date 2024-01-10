@@ -15,7 +15,10 @@ class CustomButton extends StatelessWidget {
             callback.call();
           },
           style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-          child: Text(title)),
+          child: Text(
+            title,
+            style: TextStyle(color: Colors.white),
+          )),
     );
   }
 }

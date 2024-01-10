@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_app/cubit/product_cubit.dart';
 import 'package:test_app/cubit/unit_cubit.dart';
+import 'package:test_app/cubit/warehouse_cubit.dart';
 import 'package:test_app/pages/home_app.dart';
 import 'package:test_app/pages/products/product_screen.dart';
 
@@ -25,6 +26,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => UnitCubit(),
+        ),
+             BlocProvider(
+          create: (context) => WarehouseCubit(),
         ),
       ],
       child: MaterialApp(

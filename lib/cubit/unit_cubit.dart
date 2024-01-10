@@ -12,44 +12,24 @@ class UnitCubit extends Cubit<UnitState> {
   UnitCubit() : super(const UnitState());
 
   final db = FirebaseDatabase.instance.ref().child('Units');
+  bool isAddUnit = false;
 
   Future<void> addUnit(Unit unit) async {
+    isAddUnit = false;
     emit(state.copyWith(status: UnitStatus.loading));
-
     List<Unit>? newUnits = state.units;
-
     if (newUnits != null || newUnits!.isEmpty) {
       for (var element in newUnits) {
         if (element.symbol == unit.symbol || element.address == unit.address) {
-          Fluttertoast.showToast(
-              msg: "Trùng  với đơn vị đã có !",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.red,
-              textColor: Colors.white,
-              fontSize: 16.0);
           return;
         }
       }
-
-      db.child(unit.symbol).set({
+      await db.child(unit.symbol).set({
         'symbol': unit.symbol,
         'city': unit.city,
         'address': unit.address,
-      }).then((value) => {
-            getUnit(),
-            Fluttertoast.showToast(
-                msg: "Thêm thành công !",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
-                backgroundColor: Colors.green,
-                textColor: Colors.white,
-                fontSize: 16.0),
-          });
+      }).then((value) => {getUnit(), isAddUnit = true});
     }
-
     emit(state.copyWith(status: UnitStatus.success));
   }
 
@@ -60,8 +40,6 @@ class UnitCubit extends Cubit<UnitState> {
     final data = jsonDecode(jsonEncode(snapshot.value));
 
     if (data == null || data.isEmpty) {
-      printYellow('rỗng');
-
       emit(state.copyWith(units: newUnits, status: UnitStatus.success));
       return;
     }
@@ -82,14 +60,7 @@ class UnitCubit extends Cubit<UnitState> {
   Future<void> removeUnit(String symbol) async {
     await db.child(symbol).remove().then((value) => {
           getUnit(),
-          Fluttertoast.showToast(
-              msg: "Xóa thành công !",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.green,
-              textColor: Colors.white,
-              fontSize: 16.0),
+        
         });
   }
 
@@ -99,13 +70,6 @@ class UnitCubit extends Cubit<UnitState> {
       'address': unit.address,
     });
     getUnit();
-    Fluttertoast.showToast(
-        msg: "Sửa thành công !",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-        fontSize: 16.0);
+   
   }
 }

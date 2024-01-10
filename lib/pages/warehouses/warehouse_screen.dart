@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:test_app/cubit/product_cubit.dart';
 import 'package:test_app/cubit/unit_cubit.dart';
 import 'package:test_app/cubit/unit_state.dart';
-import 'package:test_app/pages/units/add_unit.dart';
 import 'package:test_app/pages/units/itemm_unit.dart';
+import 'package:test_app/pages/warehouses/add_warehouse.dart';
 import 'package:test_app/widgets/header_app.dart';
 
-class UnitScreen extends StatelessWidget {
-  const UnitScreen({super.key});
+class WarehouseScreen extends StatelessWidget {
+  const WarehouseScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +17,7 @@ class UnitScreen extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AddUnit(),
+                builder: (context) => const AddWarehouse(),
               ),
             );
           },
@@ -31,7 +30,7 @@ class UnitScreen extends StatelessWidget {
               callback: () {
                 Navigator.pop(context);
               },
-              title: 'Danh sách sản phẩm'),
+              title: 'Danh sách kho hàng'),
         ),
         body: BlocBuilder<UnitCubit, UnitState>(
           builder: (context, state) {

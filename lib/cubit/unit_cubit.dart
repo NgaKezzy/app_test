@@ -5,24 +5,24 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:test_app/config/print_color.dart';
-import 'package:test_app/models/product.dart';
-import 'package:test_app/cubit/product_state.dart';
+import 'package:test_app/cubit/unit_state.dart';
+import 'package:test_app/models/unit.dart';
 
-class ProductCubit extends Cubit<ProductState> {
-  ProductCubit() : super(const ProductState());
+class UnitCubit extends Cubit<UnitState> {
+  UnitCubit() : super(const UnitState());
 
-  final db = FirebaseDatabase.instance.ref().child('Products');
+  final db = FirebaseDatabase.instance.ref().child('Units');
 
-  void addProduct(Product product) {
-    emit(state.copyWith(status: ProductStatus.loading));
+  Future<void> addUnit(Unit unit) async {
+    emit(state.copyWith(status: UnitStatus.loading));
 
-    List<Product>? newProducts = state.products;
+    List<Unit>? newUnits = state.units;
 
-    if (newProducts != null) {
-      for (var element in newProducts) {
-        if (element.id == product.id) {
+    if (newUnits != null || newUnits!.isEmpty) {
+      for (var element in newUnits) {
+        if (element.symbol == unit.symbol || element.address == unit.address) {
           Fluttertoast.showToast(
-              msg: "Trùng id với sản phẩm đã có !",
+              msg: "Trùng  với đơn vị đã có !",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
@@ -33,12 +33,12 @@ class ProductCubit extends Cubit<ProductState> {
         }
       }
 
-      db.child(product.id.toString()).set({
-        'id': product.id,
-        'name': product.name,
-        'unit': product.unit,
+      db.child(unit.symbol).set({
+        'symbol': unit.symbol,
+        'city': unit.city,
+        'address': unit.address,
       }).then((value) => {
-            getProducts(),
+            getUnit(),
             Fluttertoast.showToast(
                 msg: "Thêm thành công !",
                 toastLength: Toast.LENGTH_SHORT,
@@ -49,42 +49,41 @@ class ProductCubit extends Cubit<ProductState> {
                 fontSize: 16.0),
           });
     }
+
+    emit(state.copyWith(status: UnitStatus.success));
   }
 
-  Future<void> getProducts() async {
-    printYellow('lấy thông tin sản phẩm');
-
-    emit(state.copyWith(status: ProductStatus.loading));
-    List<Product> newProducts = [];
+  Future<void> getUnit() async {
+    emit(state.copyWith(status: UnitStatus.loading));
+    List<Unit> newUnits = [];
     final snapshot = await db.get();
     final data = jsonDecode(jsonEncode(snapshot.value));
 
     if (data == null || data.isEmpty) {
       printYellow('rỗng');
 
-      emit(
-          state.copyWith(products: newProducts, status: ProductStatus.success));
+      emit(state.copyWith(units: newUnits, status: UnitStatus.success));
       return;
     }
     Map<String, dynamic> newData = data as Map<String, dynamic>;
 
     newData.forEach(
       (key, value) {
-        Product product;
-        product = Product.fromJson(value);
-        newProducts.add(product);
-        printGreen(product.name);
+        Unit unit;
+        unit = Unit.fromJson(value);
+        newUnits.add(unit);
+        printRed(unit.city);
       },
     );
 
-    emit(state.copyWith(status: ProductStatus.loading, products: newProducts));
+    emit(state.copyWith(status: UnitStatus.loading, units: newUnits));
   }
 
-  Future<void> removeProduct(int idProduct) async {
-    await db.child(idProduct.toString()).remove().then((value) => {
-          getProducts(),
+  Future<void> removeUnit(String symbol) async {
+    await db.child(symbol).remove().then((value) => {
+          getUnit(),
           Fluttertoast.showToast(
-              msg: "Xóa sản phẩm thành công !",
+              msg: "Xóa thành công !",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
@@ -94,12 +93,12 @@ class ProductCubit extends Cubit<ProductState> {
         });
   }
 
-  Future<void> updateProduct(Product product) async {
-    await db.child(product.id.toString()).update({
-      'name': product.name,
-      'unit': product.unit,
+  Future<void> updateUnit(Unit unit) async {
+    await db.child(unit.symbol).update({
+      'city': unit.city,
+      'address': unit.address,
     });
-    getProducts();
+    getUnit();
     Fluttertoast.showToast(
         msg: "Sửa thành công !",
         toastLength: Toast.LENGTH_SHORT,

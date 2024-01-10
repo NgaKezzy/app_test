@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:test_app/cubit/product_cubit.dart';
-import 'package:test_app/models/product.dart';
+import 'package:test_app/cubit/unit_cubit.dart';
+import 'package:test_app/models/unit.dart';
+import 'package:test_app/pages/units/update_unit.dart';
 import 'package:test_app/widgets/custom_icon_edit_and_remove.dart';
-import 'package:test_app/pages/products/update_product.dart';
 
-class ItemProduct extends StatelessWidget {
-  const ItemProduct({super.key, required this.product});
+class ItemUnit extends StatelessWidget {
+  const ItemUnit({super.key, required this.unit});
 
-  final Product product;
+  final Unit unit;
 
   @override
   Widget build(BuildContext context) {
-    final ProductCubit productCubit = context.read<ProductCubit>();
+    final UnitCubit unitCubit = context.read<UnitCubit>();
     return Row(
       children: [
         Expanded(
@@ -27,8 +27,11 @@ class ItemProduct extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('ID: ${product.id}'),
-                    Text('Đơn vị: ${product.unit}'),
+                    Text('Ký hiệu: ${unit.symbol}'),
+                    Container(
+                        alignment: Alignment.centerRight,
+                        width: MediaQuery.of(context).size.width * 0.55,
+                        child: Text('Thành phố: ${unit.city}')),
                   ],
                 ),
                 const SizedBox(
@@ -38,15 +41,14 @@ class ItemProduct extends StatelessWidget {
                   children: [
                     SizedBox(
                         width: MediaQuery.of(context).size.width * 0.6,
-                        child: Text('Tên: ${product.name}')),
+                        child: Text('Địa chỉ: ${unit.address}')),
                     const Expanded(child: SizedBox()),
                     CustomIconEditAndRemove(
                       callback: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    UpdateProduct(product: product)));
+                                builder: (context) => UpdateUnit(unit: unit)));
                       },
                       icon: Icons.edit,
                       color: Colors.black,
@@ -56,7 +58,7 @@ class ItemProduct extends StatelessWidget {
                     ),
                     CustomIconEditAndRemove(
                       callback: () {
-                        productCubit.removeProduct(product.id);
+                        unitCubit.removeUnit(unit.symbol);
                       },
                       icon: Icons.delete,
                       color: Colors.red,

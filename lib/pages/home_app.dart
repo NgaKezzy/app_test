@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_app/cubit/product_cubit.dart';
+import 'package:test_app/cubit/unit_cubit.dart';
 import 'package:test_app/pages/products/product_screen.dart';
+import 'package:test_app/pages/units/unit_screen.dart';
 import 'package:test_app/widgets/item_home_app.dart';
 
 class HomeApp extends StatefulWidget {
@@ -13,18 +15,21 @@ class HomeApp extends StatefulWidget {
 
 class _HomeAppState extends State<HomeApp> {
   late ProductCubit productCubit;
+  late UnitCubit unitCubit;
 
   @override
   void initState() {
     productCubit = context.read<ProductCubit>();
+    unitCubit = context.read<UnitCubit>();
+
     productCubit.getProducts();
+    unitCubit.getUnit();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
-    final double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(
@@ -69,7 +74,7 @@ class _HomeAppState extends State<HomeApp> {
                                 builder: (context) => const ProductScreen()));
                       },
                       title: 'Sản phẩm'),
-                  ItemHomeApp(
+                  const ItemHomeApp(
                     title: 'Kho',
                   ),
                 ],
@@ -77,10 +82,18 @@ class _HomeAppState extends State<HomeApp> {
               const SizedBox(
                 height: 10,
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ItemHomeApp(title: 'Đơn vị'),
+                  ItemHomeApp(
+                    title: 'Đơn vị',
+                    callback: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const UnitScreen()));
+                    },
+                  ),
                   ItemHomeApp(
                     title: 'Bộ phận',
                   ),

@@ -31,7 +31,7 @@ class UnitScreen extends StatelessWidget {
               callback: () {
                 Navigator.pop(context);
               },
-              title: 'Danh sách sản phẩm'),
+              title: 'Danh sách đơn vị'),
         ),
         body: BlocBuilder<UnitCubit, UnitState>(
           builder: (context, state) {

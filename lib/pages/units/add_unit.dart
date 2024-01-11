@@ -75,7 +75,7 @@ class _AddUnitState extends State<AddUnit> {
                   height: 40,
                 ),
                 CustomButton(
-                  title: 'Thêm đơn vị',
+                  title: 'Thêm',
                   callback: () async {
                     if (formKey.currentState!.validate()) {
                       await unitCubit.addUnit(

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_app/cubit/part_cubit.dart';
 import 'package:test_app/cubit/product_cubit.dart';
+import 'package:test_app/cubit/stocker_cubit.dart';
 import 'package:test_app/cubit/unit_cubit.dart';
 import 'package:test_app/cubit/warehouse_cubit.dart';
+import 'package:test_app/pages/Stocker/stocker_screen.dart';
 import 'package:test_app/pages/parts/parts_screen.dart';
 import 'package:test_app/pages/products/product_screen.dart';
 import 'package:test_app/pages/units/unit_screen.dart';
@@ -22,6 +24,7 @@ class _HomeAppState extends State<HomeApp> {
   late UnitCubit unitCubit;
   late WarehouseCubit warehouseCubit;
   late PartCubit partCubit;
+  late StockerCubit stockerCubit;
 
   @override
   void initState() {
@@ -29,11 +32,13 @@ class _HomeAppState extends State<HomeApp> {
     unitCubit = context.read<UnitCubit>();
     warehouseCubit = context.read<WarehouseCubit>();
     partCubit = context.read<PartCubit>();
+    stockerCubit = context.read<StockerCubit>();
 
     productCubit.getProducts();
     unitCubit.getUnit();
     warehouseCubit.getWarehouse();
     partCubit.getPart();
+    stockerCubit.getStocker();
     super.initState();
   }
 
@@ -124,10 +129,17 @@ class _HomeAppState extends State<HomeApp> {
               const SizedBox(
                 height: 10,
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ItemHomeApp(title: 'Thủ kho'),
+                  ItemHomeApp(
+                      callback: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const StockerScreen()));
+                      },
+                      title: 'Thủ kho'),
                 ],
               ),
             ],

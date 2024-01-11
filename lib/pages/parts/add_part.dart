@@ -65,7 +65,7 @@ class _AddPartState extends State<AddPart> {
                   height: 40,
                 ),
                 CustomButton(
-                  title: 'Thêm bộ phận',
+                  title: 'Thêm',
                   callback: () async {
                     if (formKeyAddPart.currentState!.validate()) {
                       await partCubit.addPart(Part(

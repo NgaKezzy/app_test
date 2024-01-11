@@ -33,13 +33,13 @@ class PartScreen extends StatelessWidget {
               callback: () {
                 Navigator.pop(context);
               },
-              title: 'Danh sách sản phẩm'),
+              title: 'Danh sách bộ phận'),
         ),
         body: BlocBuilder<PartCubit, PartState>(
           builder: (context, state) {
             if (state.parts == null || state.parts!.isEmpty) {
               return const Center(
-                child: Text('Chưa đơn vị nào !'),
+                child: Text('Chưa có bộ phận nào !'),
               );
             }
             return ListView.separated(

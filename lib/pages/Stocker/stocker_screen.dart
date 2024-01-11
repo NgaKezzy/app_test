@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_app/cubit/part_cubit.dart';
 import 'package:test_app/cubit/part_state.dart';
+import 'package:test_app/cubit/stocker_cubit.dart';
+import 'package:test_app/cubit/stocker_state.dart';
 import 'package:test_app/pages/Stocker/add_stocker.dart';
-import 'package:test_app/pages/parts/add_part.dart';
+import 'package:test_app/pages/Stocker/item_stocker.dart';
 import 'package:test_app/pages/parts/item_part.dart';
 import 'package:test_app/widgets/header_app.dart';
 
@@ -31,26 +33,26 @@ class StockerScreen extends StatelessWidget {
               callback: () {
                 Navigator.pop(context);
               },
-              title: 'Danh sách sản phẩm'),
+              title: 'Danh sách thủ kho'),
         ),
-        body: BlocBuilder<PartCubit, PartState>(
+        body: BlocBuilder<StockerCubit, StockerState>(
           builder: (context, state) {
-            if (state.parts == null || state.parts!.isEmpty) {
+            if (state.stockers == null || state.stockers!.isEmpty) {
               return const Center(
-                child: Text('Chưa đơn vị nào !'),
+                child: Text('Chưa có thủ kho nào !'),
               );
             }
             return ListView.separated(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              itemCount: state.parts!.length,
+              itemCount: state.stockers!.length,
               separatorBuilder: (context, index) {
                 return const SizedBox(
                   height: 10,
                 );
               },
               itemBuilder: (context, index) {
-                return ItemPart(
-                  part: state.parts![index],
+                return ItemStocker(
+                  stocker: state.stockers![index],
                 );
               },
             );

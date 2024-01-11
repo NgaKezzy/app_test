@@ -11,7 +11,7 @@ class Warehouse {
   Warehouse({required this.id, required this.address, required this.name});
 
   factory Warehouse.fromJson(Map<String, dynamic> json) =>
-      _$WarehousesFromJson(json);
+      _$WarehouseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$WarehousesToJson(this);
+  Map<String, dynamic> toJson() => _$WarehouseToJson(this);
 }

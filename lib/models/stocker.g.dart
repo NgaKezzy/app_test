@@ -1,19 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'warehouse.dart';
+part of 'stocker.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Warehouse _$WarehouseFromJson(Map<String, dynamic> json) => Warehouse(
+Stocker _$StockerFromJson(Map<String, dynamic> json) => Stocker(
       id: json['id'] as String,
-      address: json['address'] as String,
       name: json['name'] as String,
+      address: json['address'] as String,
+      phone: json['phone'] as int,
     );
 
-Map<String, dynamic> _$WarehouseToJson(Warehouse instance) => <String, dynamic>{
+Map<String, dynamic> _$StockerToJson(Stocker instance) => <String, dynamic>{
       'id': instance.id,
-      'address': instance.address,
       'name': instance.name,
+      'address': instance.address,
+      'phone': instance.phone,
     };

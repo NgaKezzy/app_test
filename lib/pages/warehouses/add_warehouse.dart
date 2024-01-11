@@ -78,7 +78,7 @@ class _AddWarehouseState extends State<AddWarehouse> {
                   height: 40,
                 ),
                 CustomButton(
-                  title: 'Thêm kho',
+                  title: 'Thêm',
                   callback: () async {
                     if (formKeyAddWarehouse.currentState!.validate()) {
                       await warehouseCubit.addWarehouse(

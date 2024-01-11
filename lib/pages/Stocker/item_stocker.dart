@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:test_app/cubit/part_cubit.dart';
-import 'package:test_app/cubit/unit_cubit.dart';
-import 'package:test_app/models/part.dart';
-import 'package:test_app/pages/parts/update_part.dart';
-import 'package:test_app/pages/units/update_unit.dart';
+import 'package:test_app/cubit/stocker_cubit.dart';
+import 'package:test_app/models/stocker.dart';
+import 'package:test_app/pages/Stocker/update_stocker.dart';
 import 'package:test_app/widgets/custom_icon_edit_and_remove.dart';
 
-class ItemPart extends StatelessWidget {
-  const ItemPart({super.key, required this.part});
+class ItemStocker extends StatelessWidget {
+  const ItemStocker({super.key, required this.stocker});
 
-  final Part part;
+  final Stocker stocker;
 
   @override
   Widget build(BuildContext context) {
-    final PartCubit partCubit = context.read<PartCubit>();
+    final StockerCubit stockerCubit = context.read<StockerCubit>();
     return Row(
       children: [
         Expanded(
@@ -33,13 +31,25 @@ class ItemPart extends StatelessWidget {
                       children: [
                         SizedBox(
                             width: MediaQuery.of(context).size.width - 100,
-                            child: Text('Ký hiệu: ${part.id}')),
+                            child: Text('ID: ${stocker.id}')),
                         const SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         SizedBox(
                             width: MediaQuery.of(context).size.width - 100,
-                            child: Text('Thành phố: ${part.name}')),
+                            child: Text('Tên: ${stocker.name}')),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width - 100,
+                            child: Text('Sđt: ${stocker.phone}')),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width - 100,
+                            child: Text('Địa chỉ: ${stocker.address}')),
                       ],
                     ),
                     const SizedBox(
@@ -52,8 +62,8 @@ class ItemPart extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => UpdatePart(
-                                          part: part,
+                                    builder: (context) => UpdateStocker(
+                                          stocker: stocker,
                                         )));
                           },
                           icon: Icons.edit,
@@ -64,7 +74,7 @@ class ItemPart extends StatelessWidget {
                         ),
                         CustomIconEditAndRemove(
                           callback: () async {
-                            await partCubit.removePart(part);
+                            await stockerCubit.removeStocker(stocker);
                             Fluttertoast.showToast(
                                 msg: "Xóa thành công !",
                                 toastLength: Toast.LENGTH_SHORT,

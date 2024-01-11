@@ -30,13 +30,13 @@ class WarehouseScreen extends StatelessWidget {
               callback: () {
                 Navigator.pop(context);
               },
-              title: 'Danh sách kho hàng'),
+              title: 'Danh sách kho'),
         ),
         body: BlocBuilder<WarehouseCubit, WarehouseState>(
           builder: (context, state) {
             if (state.warehouses == null || state.warehouses!.isEmpty) {
               return const Center(
-                child: Text('Chưa đơn vị nào !'),
+                child: Text('Chưa có kho nào !'),
               );
             }
             return ListView.separated(

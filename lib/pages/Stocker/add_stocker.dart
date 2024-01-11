@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:test_app/cubit/part_cubit.dart';
+import 'package:test_app/cubit/stocker_cubit.dart';
 import 'package:test_app/models/part.dart';
+import 'package:test_app/models/stocker.dart';
 import 'package:test_app/widgets/custom_button.dart';
 import 'package:test_app/widgets/custom_text_field.dart';
 import 'package:test_app/widgets/header_app.dart';
@@ -17,18 +19,23 @@ class AddStocker extends StatefulWidget {
 class _AddStockerState extends State<AddStocker> {
   final TextEditingController idController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
-  final formKeyAddPart = GlobalKey<FormState>();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+
+  final formKeyAddStocker = GlobalKey<FormState>();
 
   @override
   void dispose() {
     idController.dispose();
     nameController.dispose();
+    phoneController.dispose();
+    addressController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final PartCubit partCubit = context.read<PartCubit>();
+    final StockerCubit stockerCubit = context.read<StockerCubit>();
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -37,14 +44,14 @@ class _AddStockerState extends State<AddStocker> {
           callback: () {
             Navigator.pop(context);
           },
-          title: 'Thêm bộ phận',
+          title: 'Thêm thủ kho',
         ),
       ),
       body: Padding(
         padding: EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           child: Form(
-            key: formKeyAddPart,
+            key: formKeyAddStocker,
             child: Column(
               children: [
                 const SizedBox(
@@ -59,20 +66,36 @@ class _AddStockerState extends State<AddStocker> {
                 ),
                 CustomTextField(
                   controller: nameController,
-                  labelText: 'Tên bộ phận',
+                  labelText: 'Tên thủ kho',
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                CustomTextField(
+                  type: TextInputType.phone,
+                  controller: phoneController,
+                  labelText: 'Số điện thoại',
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                CustomTextField(
+                  controller: addressController,
+                  labelText: 'Địa chỉ',
                 ),
                 const SizedBox(
                   height: 40,
                 ),
                 CustomButton(
-                  title: 'Thêm bộ phận',
+                  title: 'Thêm',
                   callback: () async {
-                    if (formKeyAddPart.currentState!.validate()) {
-                      await partCubit.addPart(Part(
-                        id: idController.text.toUpperCase().trim(),
-                        name: nameController.text.trim(),
-                      ));
-                      if (partCubit.isAddPart) {
+                    if (formKeyAddStocker.currentState!.validate()) {
+                      await stockerCubit.addStocker(Stocker(
+                          id: idController.text.trim(),
+                          name: nameController.text.trim(),
+                          address: addressController.text.trim(),
+                          phone: int.parse(phoneController.text.trim())));
+                      if (stockerCubit.isAddStocker) {
                         Fluttertoast.showToast(
                             msg: "Thêm thành công !",
                             toastLength: Toast.LENGTH_SHORT,

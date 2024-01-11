@@ -9,7 +9,7 @@ part of 'warehouse_state.dart';
 abstract class _$WarehouseStateCWProxy {
   WarehouseState status(WarehousesStatus status);
 
-  WarehouseState warehouses(List<Warehouses>? warehouses);
+  WarehouseState warehouses(List<Warehouse>? warehouses);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `WarehouseState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -19,7 +19,7 @@ abstract class _$WarehouseStateCWProxy {
   /// ````
   WarehouseState call({
     WarehousesStatus? status,
-    List<Warehouses>? warehouses,
+    List<Warehouse>? warehouses,
   });
 }
 
@@ -33,7 +33,7 @@ class _$WarehouseStateCWProxyImpl implements _$WarehouseStateCWProxy {
   WarehouseState status(WarehousesStatus status) => this(status: status);
 
   @override
-  WarehouseState warehouses(List<Warehouses>? warehouses) =>
+  WarehouseState warehouses(List<Warehouse>? warehouses) =>
       this(warehouses: warehouses);
 
   @override
@@ -56,7 +56,7 @@ class _$WarehouseStateCWProxyImpl implements _$WarehouseStateCWProxy {
       warehouses: warehouses == const $CopyWithPlaceholder()
           ? _value.warehouses
           // ignore: cast_nullable_to_non_nullable
-          : warehouses as List<Warehouses>?,
+          : warehouses as List<Warehouse>?,
     );
   }
 }

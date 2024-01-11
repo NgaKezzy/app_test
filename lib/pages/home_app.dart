@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_app/cubit/part_cubit.dart';
 import 'package:test_app/cubit/product_cubit.dart';
 import 'package:test_app/cubit/unit_cubit.dart';
 import 'package:test_app/cubit/warehouse_cubit.dart';
+import 'package:test_app/pages/parts/parts_screen.dart';
 import 'package:test_app/pages/products/product_screen.dart';
 import 'package:test_app/pages/units/unit_screen.dart';
 import 'package:test_app/pages/warehouses/warehouse_screen.dart';
@@ -19,16 +21,19 @@ class _HomeAppState extends State<HomeApp> {
   late ProductCubit productCubit;
   late UnitCubit unitCubit;
   late WarehouseCubit warehouseCubit;
+  late PartCubit partCubit;
 
   @override
   void initState() {
     productCubit = context.read<ProductCubit>();
     unitCubit = context.read<UnitCubit>();
     warehouseCubit = context.read<WarehouseCubit>();
+    partCubit = context.read<PartCubit>();
 
     productCubit.getProducts();
     unitCubit.getUnit();
     warehouseCubit.getWarehouse();
+    partCubit.getPart();
     super.initState();
   }
 
@@ -106,6 +111,12 @@ class _HomeAppState extends State<HomeApp> {
                     },
                   ),
                   ItemHomeApp(
+                    callback: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const PartScreen()));
+                    },
                     title: 'Bộ phận',
                   ),
                 ],

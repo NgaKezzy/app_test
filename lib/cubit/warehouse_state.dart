@@ -9,7 +9,7 @@ enum WarehousesStatus { init, loading, success, error }
 @CopyWith()
 class WarehouseState extends Equatable {
   const WarehouseState({this.warehouses, this.status = WarehousesStatus.init});
-  final List<Warehouses>? warehouses;
+  final List<Warehouse>? warehouses;
   final WarehousesStatus status;
 
   @override

@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:test_app/cubit/warehouse_cubit.dart';
-import 'package:test_app/models/warehouse.dart';
+import 'package:test_app/cubit/part_cubit.dart';
+import 'package:test_app/cubit/unit_cubit.dart';
+import 'package:test_app/models/part.dart';
+import 'package:test_app/models/unit.dart';
 import 'package:test_app/widgets/custom_button.dart';
 import 'package:test_app/widgets/custom_text_field.dart';
 import 'package:test_app/widgets/header_app.dart';
 
-class UpdateWarehouse extends StatefulWidget {
-  const UpdateWarehouse({super.key, required this.warehouses});
-  final Warehouse warehouses;
+class UpdatePart extends StatefulWidget {
+  const UpdatePart({super.key, required this.part});
+  final Part part;
 
   @override
-  State<UpdateWarehouse> createState() => _UpdateWarehouseState();
+  State<UpdatePart> createState() => _UpdatePartState();
 }
 
-class _UpdateWarehouseState extends State<UpdateWarehouse> {
+class _UpdatePartState extends State<UpdatePart> {
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController addressController = TextEditingController();
 
-  final formKeyUpdateWarehouse = GlobalKey<FormState>();
+  final formKeyUpdatePart = GlobalKey<FormState>();
 
   @override
   void initState() {
-    nameController.text = widget.warehouses.name;
-    addressController.text = widget.warehouses.address;
+    nameController.text = widget.part.name;
 
     super.initState();
   }
@@ -32,13 +32,12 @@ class _UpdateWarehouseState extends State<UpdateWarehouse> {
   @override
   void dispose() {
     nameController.dispose();
-    addressController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final WarehouseCubit warehouseCubit = context.read<WarehouseCubit>();
+    final PartCubit partCubit = context.read<PartCubit>();
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -47,21 +46,21 @@ class _UpdateWarehouseState extends State<UpdateWarehouse> {
           callback: () {
             Navigator.pop(context);
           },
-          title: 'Chỉnh sửa kho',
+          title: 'Chỉnh sửa đơn vị',
         ),
       ),
       body: Padding(
         padding: EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           child: Form(
-            key: formKeyUpdateWarehouse,
+            key: formKeyUpdatePart,
             child: Column(
               children: [
                 const SizedBox(
                   height: 20,
                 ),
                 Text(
-                  'ID : ${widget.warehouses.id}',
+                  'ID : ${widget.part.id}',
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.w500),
                 ),
@@ -70,25 +69,17 @@ class _UpdateWarehouseState extends State<UpdateWarehouse> {
                 ),
                 CustomTextField(
                   controller: nameController,
-                  labelText: 'Thành phố',
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                CustomTextField(
-                  controller: addressController,
-                  labelText: 'ĐỊa chỉ',
+                  labelText: 'Tên bộ phận',
                 ),
                 const SizedBox(
                   height: 40,
                 ),
                 CustomButton(
-                  title: 'Sửa kho',
+                  title: 'Sửa đơn vị',
                   callback: () async {
-                    if (formKeyUpdateWarehouse.currentState!.validate()) {
-                      await warehouseCubit.updateWarehouse(Warehouse(
-                          id: widget.warehouses.id,
-                          address: addressController.text.trim(),
+                    if (formKeyUpdatePart.currentState!.validate()) {
+                      await partCubit.updatePart(Part(
+                          id: widget.part.id,
                           name: nameController.text.trim()));
                       Fluttertoast.showToast(
                           msg: "Sửa thành công !",

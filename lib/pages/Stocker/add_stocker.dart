@@ -1,40 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:test_app/cubit/warehouse_cubit.dart';
-import 'package:test_app/models/warehouse.dart';
+import 'package:test_app/cubit/part_cubit.dart';
+import 'package:test_app/models/part.dart';
 import 'package:test_app/widgets/custom_button.dart';
 import 'package:test_app/widgets/custom_text_field.dart';
 import 'package:test_app/widgets/header_app.dart';
 
-class AddWarehouse extends StatefulWidget {
-  const AddWarehouse({super.key});
+class AddStocker extends StatefulWidget {
+  const AddStocker({super.key});
 
   @override
-  State<AddWarehouse> createState() => _AddWarehouseState();
+  State<AddStocker> createState() => _AddStockerState();
 }
 
-class _AddWarehouseState extends State<AddWarehouse> {
+class _AddStockerState extends State<AddStocker> {
   final TextEditingController idController = TextEditingController();
-
   final TextEditingController nameController = TextEditingController();
-
-  final TextEditingController addressController = TextEditingController();
-
-  final formKeyAddWarehouse = GlobalKey<FormState>();
+  final formKeyAddPart = GlobalKey<FormState>();
 
   @override
   void dispose() {
     idController.dispose();
     nameController.dispose();
-    addressController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final WarehouseCubit warehouseCubit = context.read<WarehouseCubit>();
-
+    final PartCubit partCubit = context.read<PartCubit>();
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -43,14 +37,14 @@ class _AddWarehouseState extends State<AddWarehouse> {
           callback: () {
             Navigator.pop(context);
           },
-          title: 'Thêm kho',
+          title: 'Thêm bộ phận',
         ),
       ),
       body: Padding(
         padding: EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           child: Form(
-            key: formKeyAddWarehouse,
+            key: formKeyAddPart,
             child: Column(
               children: [
                 const SizedBox(
@@ -58,37 +52,27 @@ class _AddWarehouseState extends State<AddWarehouse> {
                 ),
                 CustomTextField(
                   controller: idController,
-                  labelText: 'Mã kho',
+                  labelText: 'ID',
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 CustomTextField(
                   controller: nameController,
-                  labelText: 'Tên kho',
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                CustomTextField(
-                  controller: addressController,
-                  labelText: 'Địa chỉ',
+                  labelText: 'Tên bộ phận',
                 ),
                 const SizedBox(
                   height: 40,
                 ),
                 CustomButton(
-                  title: 'Thêm kho',
+                  title: 'Thêm bộ phận',
                   callback: () async {
-                    if (formKeyAddWarehouse.currentState!.validate()) {
-                      await warehouseCubit.addWarehouse(
-                        Warehouse(
-                          id: idController.text.trim(),
-                          address: addressController.text.trim(),
-                          name: nameController.text.trim(),
-                        ),
-                      );
-                      if (warehouseCubit.isAddWarehouse) {
+                    if (formKeyAddPart.currentState!.validate()) {
+                      await partCubit.addPart(Part(
+                        id: idController.text.toUpperCase().trim(),
+                        name: nameController.text.trim(),
+                      ));
+                      if (partCubit.isAddPart) {
                         Fluttertoast.showToast(
                             msg: "Thêm thành công !",
                             toastLength: Toast.LENGTH_SHORT,
@@ -99,11 +83,11 @@ class _AddWarehouseState extends State<AddWarehouse> {
                             fontSize: 16.0);
                       } else {
                         Fluttertoast.showToast(
-                            msg: "Kho đã tồn tại !",
+                            msg: "Đã tồn tại !",
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.BOTTOM,
                             timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.green,
+                            backgroundColor: Colors.red,
                             textColor: Colors.white,
                             fontSize: 16.0);
                       }

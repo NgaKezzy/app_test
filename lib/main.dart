@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_app/cubit/part_cubit.dart';
 import 'package:test_app/cubit/product_cubit.dart';
 import 'package:test_app/cubit/unit_cubit.dart';
 import 'package:test_app/cubit/warehouse_cubit.dart';
@@ -27,8 +28,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => UnitCubit(),
         ),
-             BlocProvider(
+        BlocProvider(
           create: (context) => WarehouseCubit(),
+        ),
+        BlocProvider(
+          create: (context) => PartCubit(),
         ),
       ],
       child: MaterialApp(

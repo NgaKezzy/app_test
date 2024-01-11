@@ -14,9 +14,9 @@ class WarehouseCubit extends Cubit<WarehouseState> {
   final db = FirebaseDatabase.instance.ref().child('Warehouses');
   bool isAddWarehouse = false;
 
-  Future<void> addWarehouse(Warehouses warehouses) async {
+  Future<void> addWarehouse(Warehouse warehouses) async {
     isAddWarehouse = false;
-    List<Warehouses>? newWarehouses = state.warehouses;
+    List<Warehouse>? newWarehouses = state.warehouses;
 
     if (newWarehouses != null) {
       for (var element in newWarehouses) {
@@ -30,6 +30,7 @@ class WarehouseCubit extends Cubit<WarehouseState> {
         'name': warehouses.name,
         'address': warehouses.address,
       }).then((value) => {
+            print('hehehehehehehehhehehehe'),
             getWarehouse(),
             isAddWarehouse = true,
           });
@@ -38,7 +39,7 @@ class WarehouseCubit extends Cubit<WarehouseState> {
 
   Future<void> getWarehouse() async {
     emit(state.copyWith(status: WarehousesStatus.loading));
-    List<Warehouses> newWarehouses = [];
+    List<Warehouse> newWarehouses = [];
     final snapshot = await db.get();
     final data = jsonDecode(jsonEncode(snapshot.value));
 
@@ -52,8 +53,8 @@ class WarehouseCubit extends Cubit<WarehouseState> {
 
     newData.forEach(
       (key, value) {
-        Warehouses warehouse;
-        warehouse = Warehouses.fromJson(value);
+        Warehouse warehouse;
+        warehouse = Warehouse.fromJson(value);
         newWarehouses.add(warehouse);
         printCyan(warehouse.name);
       },
@@ -63,12 +64,12 @@ class WarehouseCubit extends Cubit<WarehouseState> {
         status: WarehousesStatus.loading, warehouses: newWarehouses));
   }
 
-  Future<void> removeWarehouse(Warehouses warehouses) async {
+  Future<void> removeWarehouse(Warehouse warehouses) async {
     await db.child(warehouses.id).remove();
     getWarehouse();
   }
 
-  Future<void> updateWarehouse(Warehouses warehouses) async {
+  Future<void> updateWarehouse(Warehouse warehouses) async {
     await db.child(warehouses.id).update({
       'name': warehouses.name,
       'address': warehouses.address,

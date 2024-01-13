@@ -81,6 +81,8 @@ class _AddPartState extends State<AddPart> {
                             backgroundColor: Colors.green,
                             textColor: Colors.white,
                             fontSize: 16.0);
+                        idController.clear();
+                        nameController.clear();
                       } else {
                         Fluttertoast.showToast(
                             msg: "Đã tồn tại !",

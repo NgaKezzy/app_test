@@ -25,7 +25,7 @@ class PartCubit extends Cubit<PartState> {
       await db.child(part.id).set({
         'id': part.id,
         'name': part.name,
-      }).then((value) => {isAddPart = true});
+      }).then((value) async => {await getPart(), isAddPart = true});
       emit(state.copyWith(status: PartStatus.success));
     }
   }

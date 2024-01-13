@@ -20,6 +20,7 @@ class CustomTextField extends StatelessWidget {
       onChanged: (value) {
         callback?.call(value);
       },
+      textInputAction: TextInputAction.next,
       keyboardType: type,
       validator: _checkValidator,
       controller: controller,

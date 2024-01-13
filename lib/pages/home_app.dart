@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_app/cubit/part_cubit.dart';
 import 'package:test_app/cubit/product_cubit.dart';
+import 'package:test_app/cubit/receipt_cubit.dart';
 import 'package:test_app/cubit/stocker_cubit.dart';
 import 'package:test_app/cubit/unit_cubit.dart';
 import 'package:test_app/cubit/warehouse_cubit.dart';
@@ -26,6 +27,7 @@ class _HomeAppState extends State<HomeApp> {
   late WarehouseCubit warehouseCubit;
   late PartCubit partCubit;
   late StockerCubit stockerCubit;
+  late ReceiptCubit receiptCubit;
 
   @override
   void initState() {
@@ -34,16 +36,18 @@ class _HomeAppState extends State<HomeApp> {
     warehouseCubit = context.read<WarehouseCubit>();
     partCubit = context.read<PartCubit>();
     stockerCubit = context.read<StockerCubit>();
+    receiptCubit = context.read<ReceiptCubit>();
 
     productCubit.getProducts();
     unitCubit.getUnit();
     warehouseCubit.getWarehouse();
     partCubit.getPart();
     stockerCubit.getStocker();
+    receiptCubit.getReceipt();
+    receiptCubit.getItemOfReceipts();
 
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {

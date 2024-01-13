@@ -1,6 +1,7 @@
 import 'package:cool_dropdown/cool_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:test_app/config/print_color.dart';
 import 'package:test_app/cubit/part_cubit.dart';
@@ -14,6 +15,7 @@ import 'package:test_app/models/goods_votes.dart';
 import 'package:test_app/models/product.dart';
 import 'package:test_app/models/receipt.dart';
 import 'package:test_app/models/stocker.dart';
+import 'package:test_app/pages/home_app.dart';
 import 'package:test_app/pages/receipt/slected_product.dart';
 import 'package:test_app/pages/receipt/warehoused_goods.dart';
 import 'package:test_app/widgets/custom_drop_down.dart';
@@ -248,6 +250,7 @@ class _AddReceiptState extends State<AddReceipt> {
                     SizedBox(
                       width: 150,
                       child: CustomTextField(
+                        type: TextInputType.number,
                         controller: inDebtController,
                         labelText: 'Nợ',
                       ),
@@ -258,6 +261,7 @@ class _AddReceiptState extends State<AddReceipt> {
                     SizedBox(
                       width: 150,
                       child: CustomTextField(
+                        type: TextInputType.number,
                         controller: haveController,
                         labelText: 'Có',
                       ),
@@ -450,23 +454,46 @@ class _AddReceiptState extends State<AddReceipt> {
                                   idStocker != '') {
                                 printYellow('Đầy đủ thông tin');
                                 await setValueInGoodsVotes();
-                                receiptCubit.addItemOfReceipts(newGoods);
+                                await receiptCubit.addItemOfReceipts(newGoods);
 
-                                receiptCubit.addReceipt(Receipt(
-                                    id: int.parse(votesController.text),
-                                    idUnit: idUnit,
-                                    idPart: idPart,
-                                    idWarehouse: idWarehouse,
-                                    idStoker: idStocker,
-                                    inputDay: immediately,
-                                    deliver: deliverController.text,
-                                    deliveryDate: deliveryDate,
-                                    number: int.parse(numberController.text),
-                                    accordingTo: belongToController.text,
-                                    originalDocumentNumber: '',
-                                    inDebt: int.parse(inDebtController.text),
-                                    have: int.parse(haveController.text),
-                                    totalPrice: totalPrice.toString()));
+                                await receiptCubit
+                                    .addReceipt(Receipt(
+                                        id: int.parse(votesController.text),
+                                        idUnit: idUnit,
+                                        idPart: idPart,
+                                        idWarehouse: idWarehouse,
+                                        idStoker: idStocker,
+                                        inputDay: immediately,
+                                        deliver: deliverController.text,
+                                        deliveryDate: deliveryDate,
+                                        number:
+                                            int.parse(numberController.text),
+                                        accordingTo: belongToController.text,
+                                        originalDocumentNumber: '',
+                                        inDebt:
+                                            int.parse(inDebtController.text),
+                                        have: int.parse(haveController.text),
+                                        totalPrice: totalPrice.toString()))
+                                    .then((value) async => {
+                                          await receiptCubit
+                                              .getItemOfReceipts(),
+                                          await receiptCubit.getReceipt(),
+                                          await Fluttertoast.showToast(
+                                              msg: "Thêm thành công !",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM,
+                                              timeInSecForIosWeb: 1,
+                                              backgroundColor: Colors.green,
+                                              textColor: Colors.white,
+                                              fontSize: 16.0),
+                                          // ignore: use_build_context_synchronously
+                                          Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const HomeApp()),
+                                              (route) => false)
+                                        });
                               } else {
                                 printYellow('Nhập thông tin');
                               }

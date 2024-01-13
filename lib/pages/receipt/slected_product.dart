@@ -19,7 +19,6 @@ class SelectedProduct extends StatefulWidget {
 class _SelectedProductState extends State<SelectedProduct> {
   List<bool> selectedItems = [];
   late ProductCubit productCubit;
-  bool isProduct = false;
 
   @override
   void initState() {
@@ -81,19 +80,17 @@ class _SelectedProductState extends State<SelectedProduct> {
                         },
                         itemCount: productCubit.state.products!.length),
                   ),
-                  isProduct
-                      ? CustomButton(
-                          title: 'Tiếp',
-                          callback: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AddReceipt(
-                                          items: selectedItems,
-                                        )));
-                          },
-                        )
-                      : SizedBox(),
+                  CustomButton(
+                    title: 'Tiếp',
+                    callback: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddReceipt(
+                                    items: selectedItems,
+                                  )));
+                    },
+                  ),
                   const SizedBox(
                     height: 30,
                   )

@@ -2,12 +2,7 @@ import 'package:flutter/material.dart';
 
 class ItemHomeApp extends StatelessWidget {
   const ItemHomeApp(
-      {super.key,
-      this.icon = Icons.add,
-      this.title = '',
-      this.color = Colors.grey,
-      this.callback});
-  final IconData icon;
+      {super.key, this.title = '', this.color = Colors.grey, this.callback});
   final String title;
   final Color color;
   final VoidCallback? callback;
@@ -29,7 +24,6 @@ class ItemHomeApp extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon),
             Text(
               title,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),

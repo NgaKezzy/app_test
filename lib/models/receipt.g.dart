@@ -20,6 +20,7 @@ Receipt _$ReceiptFromJson(Map<String, dynamic> json) => Receipt(
       originalDocumentNumber: json['originalDocumentNumber'] as String,
       inDebt: json['inDebt'] as int,
       have: json['have'] as int,
+      totalPrice: json['totalPrice'] as String,
     );
 
 Map<String, dynamic> _$ReceiptToJson(Receipt instance) => <String, dynamic>{
@@ -36,4 +37,5 @@ Map<String, dynamic> _$ReceiptToJson(Receipt instance) => <String, dynamic>{
       'originalDocumentNumber': instance.originalDocumentNumber,
       'inDebt': instance.inDebt,
       'have': instance.have,
+      'totalPrice': instance.totalPrice,
     };

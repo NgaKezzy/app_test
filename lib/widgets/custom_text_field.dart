@@ -5,12 +5,14 @@ class CustomTextField extends StatelessWidget {
       {super.key,
       this.controller,
       this.labelText = '',
+      this.color = Colors.green,
       this.callback,
       this.type = TextInputType.text});
   final TextEditingController? controller;
   final String labelText;
   final TextInputType type;
   final ValueChanged? callback;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +26,11 @@ class CustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: labelText,
         border: OutlineInputBorder(
-          borderSide: const BorderSide(width: 1.5, color: Colors.greenAccent),
+          borderSide: BorderSide(width: 1.5, color: color),
           borderRadius: BorderRadius.circular(10.0),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(width: 1.5, color: Colors.greenAccent),
+          borderSide: BorderSide(width: 1.5, color: color),
           borderRadius: BorderRadius.circular(10.0),
         ),
       ),

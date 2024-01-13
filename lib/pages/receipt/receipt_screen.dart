@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:test_app/pages/home_app.dart';
-import 'package:test_app/pages/receipt/add_receipt.dart';
 import 'package:test_app/pages/receipt/slected_product.dart';
 import 'package:test_app/widgets/header_app.dart';
 

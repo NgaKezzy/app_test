@@ -6,9 +6,9 @@ part 'goods_votes.g.dart';
 class GoodsVotes {
   final String idProduct;
   final String idReceipt;
-  final double unitPrice;
-  final int quantityAccordingToDocuments;
-  final int actualQuantityImported;
+  final String unitPrice;
+  final String quantityAccordingToDocuments;
+  final String actualQuantityImported;
 
   GoodsVotes(
       {required this.idProduct,

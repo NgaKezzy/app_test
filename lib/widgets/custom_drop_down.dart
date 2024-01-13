@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:test_app/config/print_color.dart';
 import 'package:test_app/models/part.dart';
 import 'package:test_app/models/product.dart';
+import 'package:test_app/models/stocker.dart';
 import 'package:test_app/models/unit.dart';
 import 'package:test_app/models/warehouse.dart';
 
@@ -41,7 +42,13 @@ class _CustomDropDownState extends State<CustomDropDown> {
       widget.values?.forEach((element) {
         items.add(CoolDropdownItem(label: element.name, value: element.id));
       });
-    } else if (widget.values.runtimeType == List<Product>) {
+    }
+     else if (widget.values.runtimeType == List<Stocker>) {
+      widget.values?.forEach((element) {
+        items.add(CoolDropdownItem(label: element.name, value: element.id));
+      });
+    }
+    else if (widget.values.runtimeType == List<Product>) {
       widget.values?.forEach((element) {
         items.add(CoolDropdownItem(
             label: element.name, value: element.id.toString()));

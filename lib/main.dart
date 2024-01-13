@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_app/cubit/part_cubit.dart';
 import 'package:test_app/cubit/product_cubit.dart';
+import 'package:test_app/cubit/receipt_cubit.dart';
 import 'package:test_app/cubit/stocker_cubit.dart';
 import 'package:test_app/cubit/unit_cubit.dart';
 import 'package:test_app/cubit/warehouse_cubit.dart';
@@ -37,6 +38,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => StockerCubit(),
+        ),
+        BlocProvider(
+          create: (context) => ReceiptCubit(),
         ),
       ],
       child: MaterialApp(

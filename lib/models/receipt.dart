@@ -17,6 +17,7 @@ class Receipt {
   final String originalDocumentNumber;
   final int inDebt;
   final int have;
+  final String totalPrice;
 
   Receipt(
       {required this.id,
@@ -31,9 +32,10 @@ class Receipt {
       required this.accordingTo,
       required this.originalDocumentNumber,
       required this.inDebt,
-      required this.have});
+      required this.have,
+      required this.totalPrice});
 
-        factory Receipt.fromJson(Map<String, dynamic> json) =>
+  factory Receipt.fromJson(Map<String, dynamic> json) =>
       _$ReceiptFromJson(json);
 
   Map<String, dynamic> toJson() => _$ReceiptToJson(this);

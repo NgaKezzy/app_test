@@ -8,7 +8,7 @@ class Product {
   final String name;
   final String unit;
 
-  Product({this.id = 0, this.name = ' ', this.unit = ''});
+  Product({this.id = 0, this.name = '', this.unit = ''});
 
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);

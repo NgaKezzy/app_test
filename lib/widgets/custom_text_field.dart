@@ -5,14 +5,19 @@ class CustomTextField extends StatelessWidget {
       {super.key,
       this.controller,
       this.labelText = '',
+      this.callback,
       this.type = TextInputType.text});
   final TextEditingController? controller;
   final String labelText;
   final TextInputType type;
+  final ValueChanged? callback;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: (value) {
+        callback?.call(value);
+      },
       keyboardType: type,
       validator: _checkValidator,
       controller: controller,

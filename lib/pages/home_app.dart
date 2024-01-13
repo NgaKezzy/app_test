@@ -8,6 +8,7 @@ import 'package:test_app/cubit/warehouse_cubit.dart';
 import 'package:test_app/pages/Stocker/stocker_screen.dart';
 import 'package:test_app/pages/parts/parts_screen.dart';
 import 'package:test_app/pages/products/product_screen.dart';
+import 'package:test_app/pages/receipt/receipt_screen.dart';
 import 'package:test_app/pages/units/unit_screen.dart';
 import 'package:test_app/pages/warehouses/warehouse_screen.dart';
 import 'package:test_app/widgets/item_home_app.dart';
@@ -39,8 +40,10 @@ class _HomeAppState extends State<HomeApp> {
     warehouseCubit.getWarehouse();
     partCubit.getPart();
     stockerCubit.getStocker();
+
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -64,15 +67,23 @@ class _HomeAppState extends State<HomeApp> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                height: 120,
-                width: width,
-                decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(8)),
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Icon(Icons.post_add), Text('Phiếu nhập kho')],
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ReceiptScreen()));
+                },
+                child: Container(
+                  height: 120,
+                  width: width,
+                  decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(8)),
+                  child: const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Icon(Icons.post_add), Text('Phiếu nhập kho')],
+                  ),
                 ),
               ),
               const SizedBox(
